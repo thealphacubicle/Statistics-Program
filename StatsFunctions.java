@@ -1,5 +1,3 @@
-package stats.project;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -7,10 +5,12 @@ public class StatsFunctions
 {
 	//create instance data
 		private Scanner inputScanner;
-		private ArrayList<Double> dataValuesArrayList, q1OfDataSet;
+		private ArrayList<Double> dataValuesArrayList, minToQ1DataValues, medToMaxDataValues;
 		private String data;
 		private Double dataClones;
-		private double mean, median, q1, q3, numberOfDataValues, sumOfDataValues;
+		private double mean, median, q1, q3, numberOfDataValues, sumOfDataValues, iqr;
+
+		
 
 	//******************************************
 	//CONSTRUCTOR
@@ -19,13 +19,15 @@ public class StatsFunctions
 		{
 			inputScanner = new Scanner(System.in);
 			dataValuesArrayList = new ArrayList<Double>();
-			q1OfDataSet = new ArrayList<Double>();
 			dataClones = null;
 			mean = 0;
 			median = 0; 
 			q1= 0; 
 			q3= 0; 
 			sumOfDataValues = 0;
+
+			minToQ1DataValues = new ArrayList<Double>();
+			medToMaxDataValues = new ArrayList<Double>();
 		}
 	
 	
@@ -62,13 +64,14 @@ public class StatsFunctions
 	//**********************************************************************
 		public void calculateMean(ArrayList<Double> dataValuesArrayList)
 		{
-			//sumOfDataValues
+			//int i = 0;
 			//loop to add all the values
+			
 				for(int i = 0; i <= dataValuesArrayList.size() - 1; i++)
 				{
 					sumOfDataValues+=dataValuesArrayList.get(i);
 				}
-			
+				
 			//calculate the mean below and add to ArrayList
 				mean = sumOfDataValues / numberOfDataValues;
 						
@@ -79,104 +82,103 @@ public class StatsFunctions
 			if(numberOfDataValues % 2 == 0)
 			{
 				median = (dataValuesArrayList.get((int)((numberOfDataValues / 2) - 1)) + dataValuesArrayList.get((int)(numberOfDataValues/2))) / 2;
-
-				//DEBUG (this function works): System.out.println(median);
 			}
 			
 			else
 			{
 				median = dataValuesArrayList.get(((int) Math.ceil(numberOfDataValues / 2)) - 1);				
-				//DEBUG: System.out.println(Math.ceil(numberOfDataValues / 2));
-				//DEBUG (This function works): System.out.println(median);
 			}
 		}
-		
-		
+
+	//Calculates IQR
+		public void calculateIQR()
+		{
+			iqr = q3- q1;
+		}
+
+	//Methods to calculate Q1 and Q3 - create a seperate array for them and then do "median" calculations again
 		public void calculateQ1()
 		{
-			//create a copy up to median to calculate Q1
 			if(numberOfDataValues % 2 == 0)
 			{
-				for(int i = 0; i <= Math.ceil(numberOfDataValues / 2); i++)
+				for(int i=0; i<= (int)((numberOfDataValues / 2) - 1); i++)
 				{
-					q1OfDataSet.add(dataValuesArrayList.get(i));
+					minToQ1DataValues.add(dataValuesArrayList.get(i));
 					
 				}
-				
-				//DEBUG: System.out.println(q1OfDataSet.toString());
-				q1 = (q1OfDataSet.get((int)Math.ceil(numberOfDataValues / 2) - 1) + dataValuesArrayList.get((int)Math.floor(numberOfDataValues/2) / 2));
-				System.out.println(q1);
+
+				if(minToQ1DataValues.size() % 2 == 0)
+				{
+					q1 = (minToQ1DataValues.get(((minToQ1DataValues.size() / 2) - 1)) + minToQ1DataValues.get((minToQ1DataValues.size()/2))) / 2;
+				}
+			
+				else
+				{
+					q1 = dataValuesArrayList.get(((minToQ1DataValues.size() / 2)));				
+				}	
 			}
-				
-			/*
+
 			else
 			{
-				ArrayList<Double> q1OfDataSet = new ArrayList<Double>();
-				
-				for(int i = 0; i < Math.ceil(numberOfDataValues / 2) - 1; i++)
+				for(int i=0; i<= (int)((numberOfDataValues / 2) - 1); i++)
 				{
-					q1OfDataSet.add(dataValuesArrayList.get(i));
+					minToQ1DataValues.add(dataValuesArrayList.get(i));
+					
 				}
-				
-				System.out.println(q1OfDataSet.toString());
 
-				q1 = q1OfDataSet.get((int)Math.ceil(numberOfDataValues / 2) - 1);
-				//System.out.println(q1);
+				if(minToQ1DataValues.size() % 2 == 0)
+				{
+					q1 = (minToQ1DataValues.get(((minToQ1DataValues.size() / 2) - 1)) + minToQ1DataValues.get((minToQ1DataValues.size()/2))) / 2;
+				}
 			
-			
-			 */
-	
+				else
+				{
+					q1 = minToQ1DataValues.get(((minToQ1DataValues.size() / 2)));				
+				}
 			}
-		
-		
-		/*
-		
-		protected ArrayList<Double> calculateFiveNumberSummary(ArrayList<Double> dataValuesArrayList)
-		{		
-			
-			/*
-				
-				//calculate Q1 
-					
-					//create a copy up to median to calculate Q1
-					if(numberOfDataValues % 2 == 0)
-					{
-						ArrayList<Double> q1OfDataSet = new ArrayList<Double>();
-
-						for(int i = 0; i <= Math.ceil(numberOfDataValues / 2); i++)
-						{
-							q1OfDataSet.add(dataValuesArrayList.get(i));
-							
-						}
-						
-						//DEBUG: System.out.println(q1OfDataSet.toString());
-						q1 = (q1OfDataSet.get((int)Math.ceil(numberOfDataValues / 2) - 1) + dataValuesArrayList.get((int)Math.floor(numberOfDataValues/2) / 2));
-						System.out.println(q1);
-					}
-						
-					else
-					{
-						ArrayList<Double> q1OfDataSet = new ArrayList<Double>();
-
-						for(int i = 0; i < Math.ceil(numberOfDataValues / 2) - 1; i++)
-						{
-							q1OfDataSet.add(dataValuesArrayList.get(i));
-						}
-						
-						System.out.println(q1OfDataSet.toString());
-
-						q1 = q1OfDataSet.get((int)Math.ceil(numberOfDataValues / 2) - 1);
-						//System.out.println(q1);
-
-
-						
-			
-					}
-					
-				return returning5NumberSummary;
-	
 		}
-*/
+
+		public void calculateQ3()
+		{
+			if(numberOfDataValues % 2 == 0)
+			{
+				for(int i=(int)((numberOfDataValues / 2) - 1); i<=numberOfDataValues - 1; i++)
+				{
+					medToMaxDataValues.add(dataValuesArrayList.get(i));
+					
+				}
+
+				if(medToMaxDataValues.size() % 2 == 0)
+				{
+					q1 = (medToMaxDataValues.get(((medToMaxDataValues.size() / 2) - 1)) + medToMaxDataValues.get((medToMaxDataValues.size()/2))) / 2;
+				}
+			
+				else
+				{
+					q1 = medToMaxDataValues.get(((medToMaxDataValues.size() / 2)));				
+				}
+			}
+
+			else
+			{
+				for(int i=(int)((numberOfDataValues / 2) + 1); i<=numberOfDataValues - 1 ; i++)
+				{
+					medToMaxDataValues.add(dataValuesArrayList.get(i));
+					
+				}
+
+				if(medToMaxDataValues.size() % 2 == 0)
+				{
+					q3 = (medToMaxDataValues.get(((medToMaxDataValues.size() / 2) - 1)) + medToMaxDataValues.get((medToMaxDataValues.size()/2))) / 2;
+				}
+			
+				else
+				{
+					q3 = medToMaxDataValues.get(((medToMaxDataValues.size() / 2)));				
+				}
+			}
+		}
+			
 	
 	//*************************************************************************
 	//GET/SET METHODS
@@ -212,18 +214,20 @@ public class StatsFunctions
 			return numberOfDataValues;
 		}
 
+		public double getIQR()
+		{	
+			return iqr;
+		}
+
 
 		public String dataValuesToString()
 		{
 			return "[dataValuesArrayList=" + dataValuesArrayList + "]";
 		}
 		
-		
-		
-		
-
-		
-	
-
-
+		public String DataSummary()
+		{
+			System.out.println();
+			return "Summary:\nMean = " + mean + "\nMedian = " + median + "\nQ1 = " + q1 + "\nQ3 = " + q3 + "\nIQR = " + iqr;
+		}
 	}
