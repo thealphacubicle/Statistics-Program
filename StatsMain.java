@@ -15,39 +15,26 @@ public class StatsMain
 		ArrayList<Double> calculatedValues = new ArrayList<Double>();
 
 		
-		System.out.println("Welcome, select an option from the menu");
-		System.out.println("1. Enter data for calculations");
-		//TEMPORARY: System.out.println("2. Find the 5-number summary for already entered data");
-			int userMenuChoice = sc.nextInt();
+		StatsFunctions objStatsFunctions = new StatsFunctions();
+		
+		enteredDataValuesByUser = objStatsFunctions.collectData();
+			//DEBUG:System.out.println(objStatsFunctions.dataValuesToString());
+			//DEBUG: System.out.println();
+			
+		objStatsFunctions.calculateMean(enteredDataValuesByUser);
+			//DEBUG:System.out.println("Number of data values: " +objStatsFunctions.getNumberOfDataValues());
+			//DEBUG: System.out.println("Mean: " + objStatsFunctions.getMean());
+		
+			//DEBUG:objStatsFunctions.calculateMedian();
+			//DEBUG:System.out.println(objStatsFunctions.getMedian());
+
+		
+			
+			
+			
+			
+
+}
+
 	
-			
-			if(userMenuChoice == 1)
-			{
-				StatsFunctionality collectData = new StatsFunctionality();
-				enteredDataValuesByUser = collectData.collectData();
-				
-				StatsFunctionality calculation = new StatsFunctionality();
-				calculatedValues = calculation.calculateFiveNumberSummary(enteredDataValuesByUser);	
-				
-				System.out.println("Your data set: " + enteredDataValuesByUser.toString());
-				
-				//Print the calculated summaries:
-					System.out.println("Mean: " + calculatedValues.get(0));
-					System.out.println("Median: " + calculatedValues.get(1));
-
-			}
-			/*
-			if(userMenuChoice == 2)
-			{
-				//StatsFunctionality calculation = new StatsFunctionality();
-				//calculation.calculateFiveNumberSummary();	
-			}
-			
-			*/
-			
-			
-			
-			
-	}
-
 }
