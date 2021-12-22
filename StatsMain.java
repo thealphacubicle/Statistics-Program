@@ -1,40 +1,25 @@
-package stats.project;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class StatsMain
 {
-
 	public static void main(String[] args)
 	{
-		
-		//objects
-		Scanner sc = new Scanner(System.in);
-		ArrayList<Double> enteredDataValuesByUser = new ArrayList<Double>();
-		ArrayList<Double> calculatedValues = new ArrayList<Double>();
-
-		
-		StatsFunctions objStatsFunctions = new StatsFunctions();
-		
-		enteredDataValuesByUser = objStatsFunctions.collectData();
-			//DEBUG:System.out.println(objStatsFunctions.dataValuesToString());
-			//DEBUG: System.out.println();
-			
-		objStatsFunctions.calculateMean(enteredDataValuesByUser);
-			//DEBUG:System.out.println("Number of data values: " +objStatsFunctions.getNumberOfDataValues());
-			//DEBUG: System.out.println("Mean: " + objStatsFunctions.getMean());
-		
-			//DEBUG:objStatsFunctions.calculateMedian();
-			//DEBUG:System.out.println(objStatsFunctions.getMedian());
-
-		
-			
-			
-			
-			
-
-}
-
-	
+		JPanel panel = new JPanel();
+		JFrame frame = new JFrame();
+			frame.setPreferredSize(new Dimension(1000,500));
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setVisible(true);
+			frame.getContentPane().add(new StatsPanel());
+			frame.pack();	
+	}		
 }
