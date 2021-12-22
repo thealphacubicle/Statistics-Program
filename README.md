@@ -11,4 +11,8 @@ Version 1.1 Functionality Summary:
 - Main is still being refactored
 - More efficient with GET/SET methods instead of ArrayLists
 
+Version 2.1 Summary:
+- GUI Components added
+- Simple menu system to display items to user
+
 
